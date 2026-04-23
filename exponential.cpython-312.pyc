@@ -1,0 +1,32 @@
+import numpy as np
+
+def rr_mechanism(X, p):
+    n = len(X)
+    flip_coin = np.random.randint(0, 2, size=n)
+    truth_mask = np.random.rand(n) < p
+    return np.where(truth_mask, X, flip_coin)
+
+
+def epsilon_to_p(epsilon):
+    return np.exp(epsilon) / (1 + np.exp(epsilon))
+
+
+def unbiased_estimator(Y, p):
+    est_prop = np.mean((Y - (1 - p) / 2) / p)
+    return np.clip(est_prop, 0, 1)
+
+
+def randomized_response(data, epsilon):
+
+    data = np.array(data)
+
+    # Convert epsilon → p
+    p = epsilon_to_p(epsilon)
+
+    # Apply RR
+    noisy_data = rr_mechanism(data, p)
+
+    # Estimate true mean
+    estimated_mean = unbiased_estimator(noisy_data, p)
+
+    return noisy_data, estimated_mean

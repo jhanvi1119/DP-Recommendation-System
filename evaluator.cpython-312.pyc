@@ -1,0 +1,36 @@
+import matplotlib.pyplot as plt
+
+
+def plot_error_vs_epsilon(epsilons, laplace_errors, gaussian_errors):
+
+    plt.figure()
+
+    plt.plot(epsilons, laplace_errors, marker='o', label="Laplace")
+    plt.plot(epsilons, gaussian_errors, marker='s', label="Gaussian")
+
+    plt.xlabel("Epsilon (Privacy Budget)")
+    plt.ylabel("Error")
+    plt.title("Privacy–Utility Trade-off (Error vs Epsilon)")
+    plt.legend()
+
+    plt.show()
+
+
+def plot_mechanism_comparison(results):
+
+    mechanisms = []
+    errors = []
+
+    for mech in results:
+        mechanisms.append(mech)
+        errors.append(results[mech]["error"])
+
+    plt.figure()
+
+    plt.bar(mechanisms, errors)
+
+    plt.xlabel("Mechanisms")
+    plt.ylabel("Error")
+    plt.title("Mechanism Comparison (Error)")
+
+    plt.show()
